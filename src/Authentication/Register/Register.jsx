@@ -32,6 +32,7 @@ const Register = () => {
           name: data.name,
           photoURL: profilePic,
           role: 'user', //default role
+          premiumTaken: '',
           created_at: new Date().toISOString(),
           last_login: new Date().toISOString()
         };

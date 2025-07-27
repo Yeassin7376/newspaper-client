@@ -9,6 +9,7 @@ import DashboardLayout from '../Layouts/DashBoardLayout';
 import AllUsers from '../pages/Dashboard/AllUsers/AllUsers';
 import AllArticles from '../pages/Dashboard/AllArticles/AllArticles';
 import AddPublisher from '../pages/Dashboard/AddPublisher/AddPublisher';
+import AddArticle from '../pages/AddArticle/AddArticle';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>
+      },
+      {
+        path: 'addArticle',
+        element: <AddArticle></AddArticle>
       }
     ]
   },

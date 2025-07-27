@@ -4,13 +4,14 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import { toast } from 'react-toastify';
 import SocialLogin from '../SocialLogin/SocialLogin';
+import useAxios from '../../hooks/useAxios';
 
 const Login = () => {
-
-  const {signIn} = useAuth();
+  const { signIn } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state?.from || '/' 
+  const axiosInstant = useAxios();
+  const from = location.state?.from || '/';
   // console.log(location)
 
   const {
@@ -22,13 +23,19 @@ const Login = () => {
   const onSubmit = (data) => {
     // console.log(data);
     signIn(data.email, data.password)
-      .then((result) => {
-        console.log(result.data)
-        toast.success("User login successful")
-        navigate(from)
-      }).catch((err) => {
-        console.error(err)
-        toast.error(err.code)
+      .then(async (result) => {
+        console.log(result.data);
+        const userInfo = {
+          email: result.data.email
+        };
+        const res = await axiosInstant.post('/users', userInfo);
+        console.log(res);
+        toast.success('User login successful');
+        navigate(from);
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error(err.code);
       });
   };
 
@@ -44,16 +51,9 @@ const Login = () => {
             {errors.email?.type === 'required' && <p className="text-red-500">Email is Required</p>}
 
             <label className="label">Password</label>
-            <input
-              type="password"
-              {...register('password', { required: true, minLength: 6 })}
-              className="input"
-              placeholder="Password"
-            />
+            <input type="password" {...register('password', { required: true, minLength: 6 })} className="input" placeholder="Password" />
             {errors.password?.type == 'required' && <p className="text-red-500">Password is Required</p>}
-            {errors.password?.type == 'minLength' && (
-              <p className="text-red-500">Password must be longer then 6 characters</p>
-            )}
+            {errors.password?.type == 'minLength' && <p className="text-red-500">Password must be longer then 6 characters</p>}
 
             <div>
               <a className="link link-hover">Forgot password?</a>
@@ -64,7 +64,7 @@ const Login = () => {
               <p>
                 <small className="text-gray-600 md:font-medium md:text-sm">
                   Don't have an account ? Please{' '}
-                  <Link to="/register"  state={{from}} className="btn btn-link p-0">
+                  <Link to="/register" state={{ from }} className="btn btn-link p-0">
                     Register
                   </Link>
                 </small>

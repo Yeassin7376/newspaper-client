@@ -20,6 +20,7 @@ const SocialLogin = () => {
         name:user.displayName,
         photoURL:user.photoURL,
         role: 'user', //default role
+        premiumTaken: '',
         created_at: new Date().toISOString(),
         last_login: new Date().toISOString()
       }
