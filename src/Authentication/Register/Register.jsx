@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-// import useAxios from '../../hooks/useAxios';
 import useAuth from '../../hooks/useAuth';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import axios from 'axios';
+import useAxios from '../../hooks/useAxios';
 
 const Register = () => {
   const {
@@ -19,7 +19,7 @@ const Register = () => {
   const navigate = useNavigate();
   const from = location.state?.from || '/';
   const [profilePic, setProfilePic] = useState('');
-//   const axiosInstant = useAxios();
+  const axiosInstant = useAxios();
 
   const onSubmit = (data) => {
     createUser(data.email, data.password)
@@ -35,8 +35,8 @@ const Register = () => {
         }
         console.log(userInfo)
 
-        // const useRes = await axiosInstant.post('/users', userInfo);
-        // console.log(useRes);
+        const useRes = await axiosInstant.post('/users', userInfo);
+        console.log(useRes);
 
 
         // update profile in firebase
