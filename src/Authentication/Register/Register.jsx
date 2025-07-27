@@ -23,33 +23,35 @@ const Register = () => {
 
   const onSubmit = (data) => {
     createUser(data.email, data.password)
-      .then(async(result) => {
+      .then(async (result) => {
         console.log(result.user);
 
         // updata profile in database
-        const userInfo ={
+        const userInfo = {
           email: data.email,
+          name: data.name,
+          photoURL: profilePic,
           role: 'user', //default role
           created_at: new Date().toISOString(),
           last_login: new Date().toISOString()
-        }
-        console.log(userInfo)
+        };
+        console.log(userInfo);
 
         const useRes = await axiosInstant.post('/users', userInfo);
         console.log(useRes);
 
-
         // update profile in firebase
-        const profileInfo ={
-          displayName:data.name,
-          photoURL:profilePic
-        }
+        const profileInfo = {
+          displayName: data.name,
+          photoURL: profilePic
+        };
         // console.log(profileInfo)
         updataUserProfile(profileInfo)
           .then(() => {
             // console.log('user profile pic and name updated')
-          }).catch((err) => {
-            console.log(err)
+          })
+          .catch((err) => {
+            console.log(err);
           });
 
         navigate(from);

@@ -1,15 +1,15 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-// import useAxios from '../../../hooks/useAxios';
 import useAuth from '../../hooks/useAuth';
+import useAxios from '../../hooks/useAxios';
 
 const SocialLogin = () => {
   const { signInWithGoogle } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from || '/';
-//   const axiosInstant = useAxios();
+  const axiosInstant = useAxios();
 
   const handleGoogleSignIn = () => {
     signInWithGoogle()
@@ -17,13 +17,15 @@ const SocialLogin = () => {
        const user = result.user;
        const userInfo ={
         email: user.email,
+        name:user.displayName,
+        photoURL:user.photoURL,
         role: 'user', //default role
         created_at: new Date().toISOString(),
         last_login: new Date().toISOString()
       }
 
-    //   const res = await axiosInstant.post('/users', userInfo);
-    //   console.log(res);
+      const res = await axiosInstant.post('/users', userInfo);
+      console.log(res);
       
         toast.success('User login successful');
         navigate(from, { replace: true });
