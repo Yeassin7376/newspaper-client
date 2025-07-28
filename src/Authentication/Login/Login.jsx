@@ -24,9 +24,9 @@ const Login = () => {
     // console.log(data);
     signIn(data.email, data.password)
       .then(async (result) => {
-        console.log(result.data);
+        console.log(result.user);
         const userInfo = {
-          email: result.data.email
+          email: result.user.email
         };
         const res = await axiosInstant.post('/users', userInfo);
         console.log(res);

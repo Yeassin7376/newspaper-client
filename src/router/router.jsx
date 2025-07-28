@@ -12,6 +12,9 @@ import AddPublisher from '../pages/Dashboard/AddPublisher/AddPublisher';
 import AddArticle from '../pages/AddArticle/AddArticle';
 import AllArticlesPublic from '../pages/AllArticlesPublic/AllArticlesPublic';
 import ArticleDetails from '../pages/ArticleDetails/ArticleDetails';
+import PrivateRoute from '../routes/PrivateRoute';
+import AdminRoute from '../routes/AdminRoute';
+import Forbidden from '../shared/Forbidden/Forbidden';
 
 const router = createBrowserRouter([
   {
@@ -28,11 +31,19 @@ const router = createBrowserRouter([
       },
       {
         path: 'addArticle',
-        element: <AddArticle></AddArticle>
+        element: <PrivateRoute>
+          <AddArticle></AddArticle>
+        </PrivateRoute>
       },
       {
         path: 'articleDetails/:id',
-        element: <ArticleDetails></ArticleDetails>
+        element: <PrivateRoute>
+          <ArticleDetails></ArticleDetails>
+        </PrivateRoute>
+      },
+      {
+        path: 'forbidden',
+        element: <Forbidden></Forbidden>
       }
     ]
   },
@@ -52,7 +63,9 @@ const router = createBrowserRouter([
   },
   {
     path: 'dashboard',
-    element: <DashboardLayout></DashboardLayout>,
+    element: <AdminRoute>
+      <DashboardLayout></DashboardLayout>
+    </AdminRoute>,
     children: [
       {
         path: 'all-users',
