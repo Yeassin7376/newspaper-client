@@ -41,10 +41,7 @@ const router = createBrowserRouter([
           <ArticleDetails></ArticleDetails>
         </PrivateRoute>
       },
-      {
-        path: 'forbidden',
-        element: <Forbidden></Forbidden>
-      }
+      
     ]
   },
   {
@@ -80,6 +77,10 @@ const router = createBrowserRouter([
         element: <AddPublisher></AddPublisher>
       }
     ]
+  },
+  {
+    path: 'forbidden',
+    element: <Forbidden></Forbidden>
   }
 ]);
 
