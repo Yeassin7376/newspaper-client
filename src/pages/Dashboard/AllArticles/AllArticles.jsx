@@ -1,152 +1,206 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { toast } from 'react-toastify';
 
-const AllArticles = () => {
+const AllArticlesAdmin = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
 
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ['all-articles'],
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5); // articles per page
+
+  // Fetch all articles with pagination
+  const { data = {}, isLoading } = useQuery({
+    queryKey: ['articles', page, limit],
     queryFn: async () => {
-      const res = await axiosSecure.get('/articles');
+      const res = await axiosSecure.get(`/articles?page=${page}&limit=${limit}`);
       return res.data;
     }
   });
 
-  const { articles } = data || {};
+  const articles = data.articles || [];
+  const totalPages = data.totalPages || 1;
 
-  const handleApprove = async (id) => {
-    try {
-      await axiosSecure.patch(`/articles/approve/${id}`);
-      queryClient.invalidateQueries(['all-articles']);
-      Swal.fire('Approved!', 'The article is now published.', 'success');
-    } catch (error) {
-        console.error('Failed to approve article:', error);
-      Swal.fire('Error', 'Could not approve the article.', 'error');
+  // Approve article mutation
+  const approveMutation = useMutation({
+    mutationFn: (id) => axiosSecure.patch(`/articles/approve/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['articles']);
+      toast.success('Article approved');
+    },
+    onError: () => {
+      toast.error('Failed to approve article');
     }
-  };
+  });
 
-  const handleTogglePremium = async (id, currentStatus) => {
-    try {
-      const res = await axiosSecure.patch(`/articles/premium/${id}`, {
-        isPremium: !currentStatus
-      });
-      console.log(res.data);
-      if (res.data.result.modifiedCount > 0) {
-        toast.success(`Article is now ${!currentStatus ? 'Premium' : 'Standard'}`);
-        refetch(); // or queryClient.invalidateQueries
-      }
-    } catch (error) {
-        console.error('Failed to update premium status:', error);
-      toast.error('Failed to update premium status.');
+  // Decline article mutation
+  const declineMutation = useMutation({
+    mutationFn: ({ id, reason }) => axiosSecure.patch(`/articles/decline/${id}`, { reason }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['articles']);
+      toast.success('Article declined');
+    },
+    onError: () => {
+      toast.error('Failed to decline article');
     }
-  };
+  });
 
-  const handleDelete = async (id) => {
-    const result = await Swal.fire({
+  // Delete article mutation
+  const deleteMutation = useMutation({
+    mutationFn: (id) => axiosSecure.delete(`/articles/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['articles']);
+      toast.success('Article deleted');
+    },
+    onError: () => {
+      toast.error('Failed to delete article');
+    }
+  });
+
+  // Toggle premium mutation
+  const togglePremiumMutation = useMutation({
+    mutationFn: ({ id, current }) => axiosSecure.patch(`/articles/premium/${id}`, { isPremium: !current }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['articles']);
+      toast.success('Premium status updated');
+    },
+    onError: () => {
+      toast.error('Failed to toggle premium');
+    }
+  });
+
+  const handleApprove = (id) => approveMutation.mutate(id);
+  
+  const handleDelete = (id) => {
+    Swal.fire({
       title: 'Are you sure?',
-      text: 'You will not be able to recover this article!',
+      text: 'This will permanently delete the article!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) deleteMutation.mutate(id);
     });
-
-    if (result.isConfirmed) {
-      try {
-        await axiosSecure.delete(`/articles/${id}`);
-        queryClient.invalidateQueries(['all-articles']);
-        Swal.fire('Deleted!', 'The article has been deleted.', 'success');
-      } catch (error) {
-        console.error('Failed to delete article:', error);
-        Swal.fire('Error', 'Could not delete the article.', 'error');
-      }
-    }
   };
 
   const handleDecline = async (id) => {
     const { value: reason } = await Swal.fire({
-      title: 'Decline Reason',
+      title: 'Decline Article',
       input: 'textarea',
       inputLabel: 'Reason for decline',
-      inputPlaceholder: 'Write your reason here...',
-      showCancelButton: true
+      inputPlaceholder: 'Write the reason here...',
+      showCancelButton: true,
+      confirmButtonText: 'Submit',
     });
-
+  
     if (reason) {
-      try {
-        await axiosSecure.patch(`/articles/decline/${id}`, { reason });
-        queryClient.invalidateQueries(['all-articles']);
-        Swal.fire('Declined!', 'The article has been declined.', 'info');
-      } catch (error) {
-        console.error('Failed to decline article:', error);
-        Swal.fire('Error', 'Could not decline the article.', 'error');
-      }
+      declineMutation.mutate({ id, reason });
     }
   };
+  
 
-  if (isLoading) {
-    return <div className="text-center my-10">Loading articles...</div>;
-  }
+  const handleTogglePremium = (id, isPremium) => {
+    togglePremiumMutation.mutate({ id, current: isPremium });
+  };
+
+  const handleLimitChange = (e) => {
+    setLimit(parseInt(e.target.value));
+    setPage(1);
+  };
+
+  if (isLoading) return <div className="text-center py-10">Loading articles...</div>;
 
   return (
-    <div className="overflow-x-auto p-4 mt-6">
-      <h2 className="text-2xl font-bold mb-4">All Articles</h2>
-      <table className="table w-full border rounded-lg">
-        <thead className="bg-base-200 text-base-content">
-          <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Email</th>
-            <th>Photo</th>
-            <th>Posted Date</th>
-            <th>Status</th>
-            <th>Publisher</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {articles.map((article, index) => (
-            <tr key={article._id}>
-              <td>{index + 1}</td>
-              <td>{article.title}</td>
-              <td>{article.authorName}</td>
-              <td>{article.authorEmail}</td>
-              <td>
-                <img src={article.authorPhoto || '/default-avatar.png'} alt="Author" className="w-10 h-10 rounded-full" />
-              </td>
-              <td>{new Date(article.created_at).toLocaleDateString()}</td>
-              <td>{article.status}</td>
-              <td>{article.publisher}</td>
-              <td className="flex flex-col gap-1">
-                {article.status === 'pending' && (
-                  <>
-                    <button onClick={() => handleApprove(article._id)} className="btn btn-xs btn-success">
+    <div className="px-4 mt-8">
+      <h2 className="text-2xl font-semibold mb-4">All Articles</h2>
+
+      {/* Limit selector */}
+      <div className="mb-4">
+        <label className="mr-2">Articles per page:</label>
+        <select value={limit} onChange={handleLimitChange} className="select select-sm select-bordered">
+          {[1, 5, 10, 15, 20].map((num) => (
+            <option key={num} value={num}>
+              {num}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="table table-zebra w-full">
+          <thead className="bg-base-200">
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Email</th>
+              <th>Photo</th>
+              <th>Publisher</th>
+              <th>Status</th>
+              <th>Posted</th>
+              <th>Premium</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {articles.map((article, idx) => (
+              <tr key={article._id}>
+                <td>{(page - 1) * limit + idx + 1}</td>
+                <td>{article.title}</td>
+                <td>{article.authorName}</td>
+                <td>{article.authorEmail}</td>
+                <td>
+                  <img src={article.authorPhoto || '/default-avatar.png'} className="w-10 h-10 rounded-full" />
+                </td>
+                <td>{article.publisher}</td>
+                <td>
+                  <span className={`badge ${article.status === 'approved' ? 'badge-success' : 'badge-warning'}`}>{article.status}</span>
+                </td>
+                <td>{new Date(article.created_at).toLocaleDateString()}</td>
+                <td>{article.isPremium ? <span className="badge badge-accent">Premium</span> : <span className="text-gray-500">—</span>}</td>
+                <td className="flex flex-col gap-1">
+                  {article.status !== 'approved' && (
+                    <button onClick={() => handleApprove(article._id)} className="btn btn-xs btn-primary">
                       Approve
                     </button>
+                  )}
+                  {/* Decline button */}
+                  {article.status !== 'declined' && (
                     <button onClick={() => handleDecline(article._id)} className="btn btn-xs btn-warning">
                       Decline
                     </button>
-                  </>
-                )}
+                  )}
+                  <button onClick={() => handleDelete(article._id)} className="btn btn-xs btn-error">
+                    Delete
+                  </button>
                   <button
                     onClick={() => handleTogglePremium(article._id, article.isPremium)}
                     className={`btn btn-xs ${article.isPremium ? 'btn-outline btn-warning' : 'btn-accent'}`}>
                     {article.isPremium ? 'Remove Premium' : 'Make Premium'}
                   </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-                <button onClick={() => handleDelete(article._id)} className="btn btn-xs btn-error">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Pagination controls */}
+      <div className="flex justify-center items-center gap-4 mt-6">
+        <button className="btn btn-sm" onClick={() => setPage((prev) => Math.max(1, prev - 1))} disabled={page === 1}>
+          Prev
+        </button>
+        <span>
+          Page {page} of {totalPages}
+        </span>
+        <button className="btn btn-sm" onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))} disabled={page === totalPages}>
+          Next
+        </button>
+      </div>
     </div>
   );
 };
 
-export default AllArticles;
+export default AllArticlesAdmin;

@@ -10,6 +10,7 @@ import AllUsers from '../pages/Dashboard/AllUsers/AllUsers';
 import AllArticles from '../pages/Dashboard/AllArticles/AllArticles';
 import AddPublisher from '../pages/Dashboard/AddPublisher/AddPublisher';
 import AddArticle from '../pages/AddArticle/AddArticle';
+import AllArticlesPublic from '../pages/AllArticlesPublic/AllArticlesPublic';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>
+      },
+      {
+        path: 'allArticlePublic',
+        Component: AllArticlesPublic
       },
       {
         path: 'addArticle',
