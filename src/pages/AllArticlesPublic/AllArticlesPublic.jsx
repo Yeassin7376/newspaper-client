@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Select from 'react-select';
 import { Link } from 'react-router';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
@@ -8,6 +8,7 @@ import useAuth from '../../hooks/useAuth';
 const AllArticlesPublic = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+  const queryClient = useQueryClient();
 
   const [search, setSearch] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
@@ -49,6 +50,20 @@ const AllArticlesPublic = () => {
 
   const isSubscribed = user?.subscription; // adjust this based on your auth structure
 
+  // Mutation to increment view count
+  const viewMutation = useMutation({
+    mutationFn: (id) => axiosSecure.patch(`/articles/views/${id}`),
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries(['article', id]);
+    }
+  });
+
+  // Increase view count on mount
+  const handleViewCount = (id) => {
+    if (!id) return;
+    viewMutation.mutate(id);
+  };
+
   const handleSearchChange = (e) => setSearch(e.target.value);
   const handleTagChange = (selected) => setSelectedTags(selected || []);
   const handlePublisherChange = (e) => setSelectedPublisher(e.target.value);
@@ -89,11 +104,13 @@ const AllArticlesPublic = () => {
             <p className="text-sm text-gray-600">{article.publisher}</p>
             <p className="text-sm">{article.description.slice(0, 100)}...</p>
 
-            <button className="btn btn-sm btn-primary w-full" disabled={article.isPremium && !isSubscribed}>
-              <Link to={`/articles/${article._id}`} className={article.isPremium && !isSubscribed ? 'pointer-events-none text-gray-400' : ''}>
+            {article.isPremium && !isSubscribed ? (
+              <button className="btn btn-sm btn-disabled w-full">Premium - Subscribe</button>
+            ) : (
+              <Link to={`/articleDetails/${article._id}`} onClick={() => handleViewCount(article._id)} className="btn btn-sm btn-primary w-full text-center">
                 Details
               </Link>
-            </button>
+            )}
           </div>
         ))}
       </div>

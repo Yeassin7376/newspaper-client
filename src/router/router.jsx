@@ -11,6 +11,7 @@ import AllArticles from '../pages/Dashboard/AllArticles/AllArticles';
 import AddPublisher from '../pages/Dashboard/AddPublisher/AddPublisher';
 import AddArticle from '../pages/AddArticle/AddArticle';
 import AllArticlesPublic from '../pages/AllArticlesPublic/AllArticlesPublic';
+import ArticleDetails from '../pages/ArticleDetails/ArticleDetails';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: 'addArticle',
         element: <AddArticle></AddArticle>
+      },
+      {
+        path: 'articleDetails/:id',
+        element: <ArticleDetails></ArticleDetails>
       }
     ]
   },
