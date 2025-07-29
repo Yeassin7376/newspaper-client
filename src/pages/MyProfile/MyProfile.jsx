@@ -6,7 +6,7 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { FaCrown } from 'react-icons/fa';
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../shared/Loading/Loading';
-import { GrUserAdmin } from "react-icons/gr";
+import { GrUserAdmin } from 'react-icons/gr';
 
 const MyProfile = () => {
   const { user, updataUserProfile } = useAuth();
@@ -19,6 +19,7 @@ const MyProfile = () => {
     formState: { errors }
   } = useForm();
 
+
   const { data: userFromDB, isLoading } = useQuery({
     queryKey: ['userProfile', user?.email],
     queryFn: async () => {
@@ -27,7 +28,7 @@ const MyProfile = () => {
       return res.data;
     }
   });
-  console.log(userFromDB);
+  //   console.log(userFromDB);
 
   // Pre-fill form with user data
   useEffect(() => {
@@ -92,8 +93,8 @@ const MyProfile = () => {
       <div className="bg-white shadow-md rounded-md p-6 md:py-20 text-center">
         <img src={user?.photoURL} alt="User" className="w-28 h-28 p-1 bg-blue-300 rounded-full mx-auto mb-4 object-cover" />
         <h2 className="text-xl font-semibold flex justify-center items-center gap-2.5">
-          {userFromDB?.premiumTaken && <FaCrown className="text-4xl text-yellow-600 " />}
-          {userFromDB?.role === 'admin' && <GrUserAdmin className='' />}
+          {userFromDB?.premiumExpiresAt && <FaCrown className="text-4xl text-yellow-600 " />}
+          {userFromDB?.role === 'admin' && <GrUserAdmin />}
           {user?.displayName}
         </h2>
         <p className="text-gray-500">{user?.email}</p>

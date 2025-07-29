@@ -3,11 +3,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Select from 'react-select';
 import { Link } from 'react-router';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
-import useAuth from '../../hooks/useAuth';
+import useUserProfile from '../../hooks/useUserProfile';
 
 const AllArticlesPublic = () => {
   const axiosSecure = useAxiosSecure();
-  const { user } = useAuth();
+  const { userFromDB } = useUserProfile();
   const queryClient = useQueryClient();
 
   const [search, setSearch] = useState('');
@@ -23,6 +23,9 @@ const AllArticlesPublic = () => {
     }
   });
 
+  const isPremium = userFromDB?.premiumExpiresAt && new Date(userFromDB?.premiumExpiresAt) > new Date();
+
+  // console.log(isPremium)
   // Tag options (can also be dynamic if needed)
   const tagOptions = [
     { value: 'Politics', label: 'Politics' },
@@ -47,8 +50,6 @@ const AllArticlesPublic = () => {
       return res.data;
     }
   });
-
-  const isSubscribed = user?.subscription; // adjust this based on your auth structure
 
   // Mutation to increment view count
   const viewMutation = useMutation({
@@ -104,8 +105,14 @@ const AllArticlesPublic = () => {
             <p className="text-sm text-gray-600">{article.publisher}</p>
             <p className="text-sm">{article.description.slice(0, 100)}...</p>
 
-            {article.isPremium && !isSubscribed ? (
-              <button className="btn btn-sm btn-disabled w-full">Premium - Subscribe</button>
+            {article.isPremium ? (
+              !isPremium ? (
+                <button className="btn btn-sm btn-disabled w-full">Premium - Subscribe</button>
+              ) : (
+                <Link to={`/articleDetails/${article._id}`} onClick={() => handleViewCount(article._id)} className="btn btn-sm btn-primary w-full text-center">
+                  Details
+                </Link>
+              )
             ) : (
               <Link to={`/articleDetails/${article._id}`} onClick={() => handleViewCount(article._id)} className="btn btn-sm btn-primary w-full text-center">
                 Details

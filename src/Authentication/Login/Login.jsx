@@ -24,12 +24,12 @@ const Login = () => {
     // console.log(data);
     signIn(data.email, data.password)
       .then(async (result) => {
-        console.log(result.user);
+        // console.log(result.user);
         const userInfo = {
           email: result.user.email
         };
         const res = await axiosInstant.post('/users', userInfo);
-        console.log(res);
+        // console.log(res);
         toast.success('User login successful');
         navigate(from);
       })

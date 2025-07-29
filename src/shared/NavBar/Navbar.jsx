@@ -4,11 +4,15 @@ import useAuth from '../../hooks/useAuth';
 import useUserRole from '../../hooks/useUserRole';
 import NewspaperLogo from '../NewspaperLogo/NewspaperLogo';
 import Loading from '../Loading/Loading';
+import useUserProfile from '../../hooks/useUserProfile';
 
 const Navbar = () => {
-  const { user, logout , loading} = useAuth();
+  const { user, logout, loading } = useAuth();
 
   const { role } = useUserRole();
+  const { userFromDB } = useUserProfile();
+
+  const isPremium = userFromDB?.premiumExpiresAt && new Date(userFromDB?.premiumExpiresAt) > new Date();
 
   const links = (
     <>
@@ -18,6 +22,12 @@ const Navbar = () => {
       <li>
         <NavLink to="/allArticlePublic">All Article</NavLink>
       </li>
+      
+      {isPremium && (
+        <li>
+          <NavLink to="/premiumArticles">Premium Articles</NavLink>
+        </li>
+      )}
 
       {user?.email && (
         <>
@@ -52,7 +62,7 @@ const Navbar = () => {
   };
 
   if (loading) {
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
 
   return (
@@ -77,7 +87,6 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        
         {user?.photoURL && (
           <img className="w-10 md:w-16 h-10 md:h-16 mr-2 p-0.5 bg-blue-200 object-cover rounded-full" src={user?.photoURL} title={user?.displayName} alt="" />
         )}

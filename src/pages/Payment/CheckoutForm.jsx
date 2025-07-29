@@ -28,7 +28,7 @@ const CheckoutForm = ({ clientSecret, price, period }) => {
     try {
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: 'card',
-        card,
+        card
       });
 
       if (error) {
@@ -38,7 +38,7 @@ const CheckoutForm = ({ clientSecret, price, period }) => {
       }
 
       const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: paymentMethod.id,
+        payment_method: paymentMethod.id
       });
 
       if (confirmError) {
@@ -48,15 +48,14 @@ const CheckoutForm = ({ clientSecret, price, period }) => {
       }
 
       if (paymentIntent.status === 'succeeded') {
-        let durationMs = 0;
-        if (period === '1') durationMs = 1 * 60 * 1000;
-        else if (period === '5') durationMs = 5 * 24 * 60 * 60 * 1000;
-        else if (period === '10') durationMs = 10 * 24 * 60 * 60 * 1000;
+        const minutes = parseInt(period); // 1, 720, 1440
+        const durationMs = minutes * 60 * 1000;
 
         const premiumUntil = new Date(Date.now() + durationMs);
+        // console.log('Premium until:', premiumUntil);
 
         await axiosSecure.patch(`/users/premium/${user.email}`, {
-          premiumTaken: premiumUntil,
+          premiumExpiresAt: premiumUntil
         });
 
         Swal.fire('Success!', 'Subscription successful.', 'success');
@@ -74,11 +73,7 @@ const CheckoutForm = ({ clientSecret, price, period }) => {
     <form onSubmit={handleSubmit} className="space-y-4">
       <CardElement className="p-4 border rounded-md" />
       {cardError && <p className="text-red-500">{cardError}</p>}
-      <button
-        type="submit"
-        className="btn btn-primary w-full"
-        disabled={!stripe || loading}
-      >
+      <button type="submit" className="btn btn-primary w-full" disabled={!stripe || loading}>
         {loading ? 'Processing...' : `Pay $${price}`}
       </button>
     </form>

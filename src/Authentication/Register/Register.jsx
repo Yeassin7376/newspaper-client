@@ -8,7 +8,6 @@ import axios from 'axios';
 import useAxios from '../../hooks/useAxios';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-
 const Register = () => {
   const {
     register,
@@ -24,11 +23,10 @@ const Register = () => {
   const axiosInstant = useAxios();
   const [showPassword, setShowPassword] = useState(false);
 
-
   const onSubmit = (data) => {
     createUser(data.email, data.password)
       .then(async (result) => {
-        console.log(result.user);
+        // console.log(result.user);
 
         // updata profile in database
         const userInfo = {
@@ -36,14 +34,14 @@ const Register = () => {
           name: data.name,
           photoURL: profilePic,
           role: 'user', //default role
-          premiumTaken: '',
+          premiumExpiresAt: '',
           created_at: new Date().toISOString(),
           last_login: new Date().toISOString()
         };
-        console.log(userInfo);
+        // console.log(userInfo);
 
         const useRes = await axiosInstant.post('/users', userInfo);
-        console.log(useRes);
+        // console.log(useRes);
 
         // update profile in firebase
         const profileInfo = {
@@ -63,14 +61,14 @@ const Register = () => {
         toast.success('User created successful');
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         toast.error(err.code);
       });
   };
 
   const handleImageUpload = async (e) => {
     const image = e.target.files[0];
-    console.log(image);
+    // console.log(image);
 
     const formdata = new FormData();
     formdata.append('image', image);

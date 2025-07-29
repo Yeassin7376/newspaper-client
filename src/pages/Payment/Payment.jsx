@@ -20,6 +20,7 @@ const Payment = () => {
       navigate('/subscription');
       return;
     }
+console.log('Price:', price, 'Period:', period);
 
     const fetchClientSecret = async () => {
       try {

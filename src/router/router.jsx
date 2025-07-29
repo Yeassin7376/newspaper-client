@@ -20,6 +20,8 @@ import MyProfile from '../pages/MyProfile/MyProfile';
 import Subscription from '../pages/Subscription/Subscription';
 import Payment from '../pages/Payment/Payment';
 import Error from '../pages/Error/Error';
+import PremiumArticles from '../pages/PremiumArticles/PremiumArticles';
+import PremiumRoute from '../routes/PremiumRoute';
 
 const router = createBrowserRouter([
   {
@@ -77,6 +79,12 @@ const router = createBrowserRouter([
         element: <PrivateRoute>
           <Payment></Payment>
         </PrivateRoute>
+      },
+      {
+        path: 'premiumArticles',
+        element: <PremiumRoute>
+          <PremiumArticles></PremiumArticles>
+        </PremiumRoute>
       }
     ]
   },

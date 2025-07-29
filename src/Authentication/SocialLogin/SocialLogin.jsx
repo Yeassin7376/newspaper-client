@@ -13,21 +13,21 @@ const SocialLogin = () => {
 
   const handleGoogleSignIn = () => {
     signInWithGoogle()
-      .then(async(result) => {
-       const user = result.user;
-       const userInfo ={
-        email: user.email,
-        name:user.displayName,
-        photoURL:user.photoURL,
-        role: 'user', //default role
-        premiumTaken: '',
-        created_at: new Date().toISOString(),
-        last_login: new Date().toISOString()
-      }
+      .then(async (result) => {
+        const user = result.user;
+        const userInfo = {
+          email: user.email,
+          name: user.displayName,
+          photoURL: user.photoURL,
+          role: 'user', //default role
+          premiumExpiresAt: '',
+          created_at: new Date().toISOString(),
+          last_login: new Date().toISOString()
+        };
 
-      const res = await axiosInstant.post('/users', userInfo);
-      console.log(res);
-      
+        const res = await axiosInstant.post('/users', userInfo);
+        // console.log(res);
+
         toast.success('User login successful');
         navigate(from, { replace: true });
       })

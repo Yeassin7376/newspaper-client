@@ -27,7 +27,7 @@ const UpdateArticle = ({ article, onClose, refetch }) => {
     }
   });
 
-  console.log(article.publisher);
+//   console.log(article.publisher);
 
   // Pre-fill values
   useEffect(() => {
