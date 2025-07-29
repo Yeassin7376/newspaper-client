@@ -72,7 +72,7 @@ const AllArticlesAdmin = () => {
   });
 
   const handleApprove = (id) => approveMutation.mutate(id);
-  
+
   const handleDelete = (id) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -92,14 +92,13 @@ const AllArticlesAdmin = () => {
       inputLabel: 'Reason for decline',
       inputPlaceholder: 'Write the reason here...',
       showCancelButton: true,
-      confirmButtonText: 'Submit',
+      confirmButtonText: 'Submit'
     });
-  
+
     if (reason) {
       declineMutation.mutate({ id, reason });
     }
   };
-  
 
   const handleTogglePremium = (id, isPremium) => {
     togglePremiumMutation.mutate({ id, current: isPremium });
@@ -148,7 +147,12 @@ const AllArticlesAdmin = () => {
             {articles.map((article, idx) => (
               <tr key={article._id}>
                 <td>{(page - 1) * limit + idx + 1}</td>
-                <td>{article.title}</td>
+                <td>
+                  <p className="max-w-[200px] truncate cursor-pointer" title={article.title}>
+                    {article.title}
+                  </p>
+                </td>
+
                 <td>{article.authorName}</td>
                 <td>{article.authorEmail}</td>
                 <td>

@@ -15,7 +15,7 @@ import ArticleDetails from '../pages/ArticleDetails/ArticleDetails';
 import PrivateRoute from '../routes/PrivateRoute';
 import AdminRoute from '../routes/AdminRoute';
 import Forbidden from '../shared/Forbidden/Forbidden';
-import MyArticles from '../pages/Home/MyArticles/MyArticles';
+import MyArticles from '../pages/MyArticles/MyArticles';
 
 const router = createBrowserRouter([
   {
@@ -32,23 +32,28 @@ const router = createBrowserRouter([
       },
       {
         path: 'addArticle',
-        element: <PrivateRoute>
-          <AddArticle></AddArticle>
-        </PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <AddArticle></AddArticle>
+          </PrivateRoute>
+        )
       },
       {
         path: 'articleDetails/:id',
-        element: <PrivateRoute>
-          <ArticleDetails></ArticleDetails>
-        </PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <ArticleDetails></ArticleDetails>
+          </PrivateRoute>
+        )
       },
       {
         path: 'myArticles',
-        element: <PrivateRoute>
-          <MyArticles></MyArticles>
-        </PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <MyArticles></MyArticles>
+          </PrivateRoute>
+        )
       }
-      
     ]
   },
   {
@@ -67,9 +72,11 @@ const router = createBrowserRouter([
   },
   {
     path: 'dashboard',
-    element: <AdminRoute>
-      <DashboardLayout></DashboardLayout>
-    </AdminRoute>,
+    element: (
+      <AdminRoute>
+        <DashboardLayout></DashboardLayout>
+      </AdminRoute>
+    ),
     children: [
       {
         path: 'all-users',

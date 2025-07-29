@@ -3,8 +3,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import useAuth from '../../../hooks/useAuth';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import useAuth from '../../hooks/useAuth';
+import UpdateArticle from '../UpdateArticle/UpdateArticle';
 
 const MyArticles = () => {
   const { user } = useAuth();
@@ -12,9 +13,15 @@ const MyArticles = () => {
   const queryClient = useQueryClient();
   const [selectedReason, setSelectedReason] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState(null);
 
   // Fetch articles
-  const { data: articles = [], isLoading } = useQuery({
+  const {
+    data: articles = [],
+    isLoading,
+    refetch
+  } = useQuery({
     queryKey: ['myArticles', user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/articles/user?email=${user?.email}`);
@@ -76,24 +83,19 @@ const MyArticles = () => {
             {articles.map((article, idx) => (
               <tr key={article._id}>
                 <td>{idx + 1}</td>
-                <td>{article.title}</td>
+                <td>
+                  <p className="max-w-[200px] truncate cursor-pointer" title={article.title}>
+                    {article.title}
+                  </p>
+                </td>
+
                 <td>
                   <span
-                    className={`badge ${
-                      article.status === 'approved'
-                        ? 'badge-success'
-                        : article.status === 'declined'
-                        ? 'badge-error'
-                        : 'badge-warning'
-                    }`}
-                  >
+                    className={`badge ${article.status === 'approved' ? 'badge-success' : article.status === 'declined' ? 'badge-error' : 'badge-warning'}`}>
                     {article.status}
                   </span>
                   {article.status === 'declined' && article.declineReason && (
-                    <button
-                      onClick={() => openReasonModal(article.declineReason)}
-                      className="ml-2 btn btn-xs btn-outline btn-error"
-                    >
+                    <button onClick={() => openReasonModal(article.declineReason)} className="ml-2 btn btn-xs btn-outline btn-error">
                       View Reason
                     </button>
                   )}
@@ -103,9 +105,14 @@ const MyArticles = () => {
                   <Link to={`/articleDetails/${article._id}`} className="btn btn-xs btn-info">
                     Details
                   </Link>
-                  <Link to={`/dashboard/update-article/${article._id}`} className="btn btn-xs btn-warning">
+                  <button
+                    onClick={() => {
+                      setSelectedArticle(article); // set current article to update
+                      setShowUpdate(true); // show modal
+                    }}
+                    className="btn btn-xs btn-warning">
                     Update
-                  </Link>
+                  </button>
                   <button onClick={() => handleDelete(article._id)} className="btn btn-xs btn-error">
                     Delete
                   </button>
@@ -129,6 +136,20 @@ const MyArticles = () => {
             </div>
           </div>
         </dialog>
+      )}
+      {showUpdate && selectedArticle && (
+        <div className="fixed inset-0  bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-amber-100 rounded-md max-w-2xl w-full p-6">
+            <UpdateArticle
+              article={selectedArticle}
+              onClose={() => {
+                setShowUpdate(false);
+                setSelectedArticle(null);
+              }}
+              refetch={refetch}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

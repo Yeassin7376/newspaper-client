@@ -45,7 +45,7 @@ const TrendingArticlesSlider = () => {
       <h2 className="text-2xl md:text-4xl font-semibold mb-4">🔥 Trending Articles</h2>
       <Slider {...sliderSettings}>
         {articles.map((article) => (
-          <Link key={article._id} to={`/article/${article._id}`} className="px-2 block h-full">
+          <div key={article._id} className="px-2 block h-full">
             <div className="relative rounded-lg overflow-hidden shadow-md h-72 group cursor-pointer">
               <img
                 src={article.image}
@@ -67,7 +67,7 @@ const TrendingArticlesSlider = () => {
               </div>
               </div>
             </div>
-          </Link>
+          </div>
         ))}
       </Slider>
     </div>
