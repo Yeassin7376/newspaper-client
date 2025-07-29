@@ -17,6 +17,8 @@ import AdminRoute from '../routes/AdminRoute';
 import Forbidden from '../shared/Forbidden/Forbidden';
 import MyArticles from '../pages/MyArticles/MyArticles';
 import MyProfile from '../pages/MyProfile/MyProfile';
+import Subscription from '../pages/Subscription/Subscription';
+import Payment from '../pages/Payment/Payment';
 
 const router = createBrowserRouter([
   {
@@ -62,6 +64,18 @@ const router = createBrowserRouter([
             <MyProfile></MyProfile>
           </PrivateRoute>
         )
+      },
+      {
+        path: 'subscription',
+        element: <PrivateRoute>
+          <Subscription></Subscription>
+        </PrivateRoute>
+      },
+      {
+        path: 'payment',
+        element: <PrivateRoute>
+          <Payment></Payment>
+        </PrivateRoute>
       }
     ]
   },

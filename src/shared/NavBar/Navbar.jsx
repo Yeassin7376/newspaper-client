@@ -17,6 +17,9 @@ const Navbar = () => {
       <li>
         <NavLink to="/allArticlePublic">All Article</NavLink>
       </li>
+      <li>
+        <NavLink to="/subscription">Subscription</NavLink>
+      </li>
       {user?.email && (
         <>
           <li>
