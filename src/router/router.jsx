@@ -19,6 +19,7 @@ import MyArticles from '../pages/MyArticles/MyArticles';
 import MyProfile from '../pages/MyProfile/MyProfile';
 import Subscription from '../pages/Subscription/Subscription';
 import Payment from '../pages/Payment/Payment';
+import Error from '../pages/Error/Error';
 
 const router = createBrowserRouter([
   {
@@ -118,7 +119,12 @@ const router = createBrowserRouter([
   {
     path: 'forbidden',
     element: <Forbidden></Forbidden>
+  },
+  {
+    path: '*',
+    Component: Error
   }
+
 ]);
 
 export default router;

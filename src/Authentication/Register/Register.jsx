@@ -6,6 +6,8 @@ import useAuth from '../../hooks/useAuth';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import axios from 'axios';
 import useAxios from '../../hooks/useAxios';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 
 const Register = () => {
   const {
@@ -20,6 +22,8 @@ const Register = () => {
   const from = location.state?.from || '/';
   const [profilePic, setProfilePic] = useState('');
   const axiosInstant = useAxios();
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const onSubmit = (data) => {
     createUser(data.email, data.password)
@@ -98,11 +102,30 @@ const Register = () => {
             <input type="email" {...register('email', { required: true })} className="input" placeholder="Email" />
             {errors.email?.type === 'required' && <p className="text-red-500">Email is Required</p>}
 
-            {/* password */}
+            {/* Password */}
             <label className="label">Password</label>
-            <input type="password" {...register('password', { required: true, minLength: 6 })} className="input" placeholder="Password" />
-            {errors.password?.type == 'required' && <p className="text-red-500">Password is Required</p>}
-            {errors.password?.type == 'minLength' && <p className="text-red-500">Password must be longer then 6 characters</p>}
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                className="input w-full pr-10"
+                {...register('password', {
+                  required: 'Password is required',
+                  minLength: {
+                    value: 6,
+                    message: 'Password must be at least 6 characters'
+                  },
+                  pattern: {
+                    value: /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
+                    message: 'Must include uppercase, number, and special character'
+                  }
+                })}
+              />
+              <span onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500">
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
 
             <button className="btn btn-primary text-black mt-4">Register</button>
             <div>

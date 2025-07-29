@@ -3,9 +3,10 @@ import { Link, NavLink } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import useUserRole from '../../hooks/useUserRole';
 import NewspaperLogo from '../NewspaperLogo/NewspaperLogo';
+import Loading from '../Loading/Loading';
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user, logout , loading} = useAuth();
 
   const { role } = useUserRole();
 
@@ -17,11 +18,12 @@ const Navbar = () => {
       <li>
         <NavLink to="/allArticlePublic">All Article</NavLink>
       </li>
-      <li>
-        <NavLink to="/subscription">Subscription</NavLink>
-      </li>
+
       {user?.email && (
         <>
+          <li>
+            <NavLink to="/subscription">Subscription</NavLink>
+          </li>
           <li>
             <NavLink to="/addArticle">Add Article</NavLink>
           </li>
@@ -49,6 +51,10 @@ const Navbar = () => {
       });
   };
 
+  if (loading) {
+    return <Loading></Loading>
+  }
+
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -63,13 +69,18 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className=" text-xl"><NewspaperLogo></NewspaperLogo></a>
+        <a className=" text-xl">
+          <NewspaperLogo></NewspaperLogo>
+        </a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        {user?.photoURL && <img className="w-10 md:w-16 h-10 md:h-16 mr-2 p-0.5 bg-blue-200 object-cover rounded-full" src={user?.photoURL} title={user?.displayName} alt="" />}
+        
+        {user?.photoURL && (
+          <img className="w-10 md:w-16 h-10 md:h-16 mr-2 p-0.5 bg-blue-200 object-cover rounded-full" src={user?.photoURL} title={user?.displayName} alt="" />
+        )}
         {user?.email ? (
           <button onClick={handleLogout} className="btn-sm md:btn btn btn-primary text-white">
             Logout

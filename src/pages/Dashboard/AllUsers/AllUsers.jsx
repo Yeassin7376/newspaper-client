@@ -24,7 +24,7 @@ const AllUsers = () => {
   // Mutation for promoting user to admin
   const makeAdminMutation = useMutation({
     mutationFn: async (userId) => {
-      const res = await axiosSecure.patch(`/users/${userId}`, { role: 'admin' });
+      const res = await axiosSecure.patch(`/user/${userId}`, { role: 'admin' });
       return res.data;
     },
     onSuccess: () => {
