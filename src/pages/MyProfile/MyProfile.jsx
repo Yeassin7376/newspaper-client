@@ -3,17 +3,31 @@ import Swal from 'sweetalert2';
 import { useState, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { FaCrown } from 'react-icons/fa';
+import { useQuery } from '@tanstack/react-query';
+import Loading from '../../shared/Loading/Loading';
+import { GrUserAdmin } from "react-icons/gr";
 
 const MyProfile = () => {
-  const { user, updataUserProfile} = useAuth();
+  const { user, updataUserProfile } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors }
   } = useForm();
+
+  const { data: userFromDB, isLoading } = useQuery({
+    queryKey: ['userProfile', user?.email],
+    queryFn: async () => {
+      if (!user?.email) return null;
+      const res = await axiosSecure.get(`/user?email=${user.email}`);
+      return res.data;
+    }
+  });
+  console.log(userFromDB);
 
   // Pre-fill form with user data
   useEffect(() => {
@@ -40,13 +54,10 @@ const MyProfile = () => {
       if (imageFile) {
         const formData = new FormData();
         formData.append('image', imageFile);
-        const uploadRes = await fetch(
-          `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`,
-          {
-            method: 'POST',
-            body: formData,
-          }
-        );
+        const uploadRes = await fetch(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`, {
+          method: 'POST',
+          body: formData
+        });
         const uploadData = await uploadRes.json();
         photoURL = uploadData.data.url;
       }
@@ -61,7 +72,7 @@ const MyProfile = () => {
       // Update backend user record
       await axiosSecure.patch(`/users/${user.email}`, {
         name: data.name,
-        photoURL,
+        photoURL
       });
 
       Swal.fire('Success', 'Profile updated successfully', 'success');
@@ -71,22 +82,22 @@ const MyProfile = () => {
       Swal.fire('Error', 'Failed to update profile', 'error');
     }
   };
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
 
   return (
     <div className="max-w-xl mx-auto mt-10">
       {/* Profile Card */}
       <div className="bg-white shadow-md rounded-md p-6 md:py-20 text-center">
-        <img
-          src={user?.photoURL}
-          alt="User"
-          className="w-24 h-24 rounded-full mx-auto border mb-4 object-cover"
-        />
-        <h2 className="text-xl font-semibold">{user?.displayName}</h2>
+        <img src={user?.photoURL} alt="User" className="w-28 h-28 p-1 bg-blue-300 rounded-full mx-auto mb-4 object-cover" />
+        <h2 className="text-xl font-semibold flex justify-center items-center gap-2.5">
+          {userFromDB?.premiumTaken && <FaCrown className="text-4xl text-yellow-600 " />}
+          {userFromDB?.role === 'admin' && <GrUserAdmin className='' />}
+          {user?.displayName}
+        </h2>
         <p className="text-gray-500">{user?.email}</p>
-        <button
-          onClick={handleUpdateClick}
-          className="mt-4 btn btn-outline btn-primary"
-        >
+        <button onClick={handleUpdateClick} className="mt-4 btn btn-outline btn-primary">
           Update Profile
         </button>
       </div>
@@ -106,43 +117,25 @@ const MyProfile = () => {
               {/* Name */}
               <div>
                 <label className="label">Name</label>
-                <input
-                  {...register('name', { required: true })}
-                  className="input input-bordered w-full"
-                />
-                {errors.name && (
-                  <p className="text-sm text-red-500">Name is required</p>
-                )}
+                <input {...register('name', { required: true })} className="input input-bordered w-full" />
+                {errors.name && <p className="text-sm text-red-500">Name is required</p>}
               </div>
 
               {/* Email (readonly) */}
               <div>
                 <label className="label">Email</label>
-                <input
-                  {...register('email')}
-                  readOnly
-                  className="input input-bordered w-full"
-                />
+                <input {...register('email')} readOnly className="input input-bordered w-full" />
               </div>
 
               {/* Image File */}
               <div>
                 <label className="label">New Photo</label>
-                <input
-                  {...register('photo')}
-                  type="file"
-                  accept="image/*"
-                  className="file-input file-input-bordered w-full"
-                />
+                <input {...register('photo')} type="file" accept="image/*" className="file-input file-input-bordered w-full" />
               </div>
 
               {/* Buttons */}
               <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  onClick={handleCloseModal}
-                >
+                <button type="button" className="btn btn-ghost" onClick={handleCloseModal}>
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">

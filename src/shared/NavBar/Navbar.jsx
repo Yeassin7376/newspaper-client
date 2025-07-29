@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import useUserRole from '../../hooks/useUserRole';
+import NewspaperLogo from '../NewspaperLogo/NewspaperLogo';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -49,7 +50,7 @@ const Navbar = () => {
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div tabIndex={0} role="button" className="btn btn-ghost pl-0 pr-2 lg:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               {' '}
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />{' '}
@@ -59,23 +60,23 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <a className=" text-xl"><NewspaperLogo></NewspaperLogo></a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        {user?.photoURL && <img className="w-16 h-16 mr-2 p-0.5 bg-blue-200 object-cover rounded-full" src={user?.photoURL} title={user?.displayName} alt="" />}
+        {user?.photoURL && <img className="w-10 md:w-16 h-10 md:h-16 mr-2 p-0.5 bg-blue-200 object-cover rounded-full" src={user?.photoURL} title={user?.displayName} alt="" />}
         {user?.email ? (
-          <button onClick={handleLogout} className="btn btn-primary">
+          <button onClick={handleLogout} className="btn-sm md:btn btn btn-primary text-white">
             Logout
           </button>
         ) : (
           <>
-            <Link to="/login" className="btn btn-primary  mr-2">
+            <Link to="/login" className="btn-sm md:btn btn btn-primary text-white  mr-2">
               Login
             </Link>
-            <Link to="/register" className="btn btn-primary btn-outline hover:text-white">
+            <Link to="/register" className="btn-sm md:btn btn-primary btn-outline hover:text-white">
               Register
             </Link>
           </>
