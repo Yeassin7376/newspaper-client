@@ -16,6 +16,7 @@ import PrivateRoute from '../routes/PrivateRoute';
 import AdminRoute from '../routes/AdminRoute';
 import Forbidden from '../shared/Forbidden/Forbidden';
 import MyArticles from '../pages/MyArticles/MyArticles';
+import MyProfile from '../pages/MyProfile/MyProfile';
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyArticles></MyArticles>
+          </PrivateRoute>
+        )
+      },
+      {
+        path: 'myProfile',
+        element: (
+          <PrivateRoute>
+            <MyProfile></MyProfile>
           </PrivateRoute>
         )
       }
