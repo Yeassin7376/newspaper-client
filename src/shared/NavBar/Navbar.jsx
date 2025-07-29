@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router';
 import useAuth from '../../hooks/useAuth';
+import useUserRole from '../../hooks/useUserRole';
 
 const Navbar = () => {
-    const { user, logout} = useAuth();
+  const { user, logout } = useAuth();
+
+  const { role } = useUserRole();
 
   const links = (
     <>
@@ -13,25 +16,31 @@ const Navbar = () => {
       <li>
         <NavLink to="/allArticlePublic">All Article</NavLink>
       </li>
-      <li>
-        <NavLink to="/addArticle">Add Article</NavLink>
-      </li>
-      <li>
-        <NavLink to="/dashboard">Dashboard</NavLink>
-      </li>
-      
+      {user?.email && (
+        <>
+          <li>
+            <NavLink to="/addArticle">Add Article</NavLink>
+          </li>
+          <li>
+            <NavLink to="/myArticles">My Articles</NavLink>
+          </li>
+        </>
+      )}
+      {role === 'admin' && (
+        <li>
+          <NavLink to="/dashboard">Dashboard</NavLink>
+        </li>
+      )}
     </>
   );
 
   const handleLogout = () => {
     logout()
-      .then(() => {
-      })
+      .then(() => {})
       .catch((err) => {
         console.error(err);
       });
   };
-
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -53,7 +62,6 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        
         {user?.photoURL && <img className="w-16 h-16 mr-2 p-0.5 bg-blue-200 object-cover rounded-full" src={user?.photoURL} title={user?.displayName} alt="" />}
         {user?.email ? (
           <button onClick={handleLogout} className="btn btn-primary">
