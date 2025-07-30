@@ -15,14 +15,12 @@ const PremiumArticles = () => {
     }
   });
 
-  if (isLoading) return <p className="text-center mt-10">Loading...</p>;
+  if (isLoading) return <span className="loading loading-bars loading-sm"></span>;
 
-    // Increase view count on mount
-    const handleViewCount = (id) => {
-        if (!id) return;
-        axiosSecure.patch(`/articles/views/${id}`)
-      };
-    
+  const handleViewCount = (id) => {
+    if (!id || id.length !== 24) return;
+    axiosSecure.patch(`/articles/views/${id}`);
+  };
 
   return (
     <div className="grid gap-6 px-5 py-10 md:grid-cols-2 lg:grid-cols-3">

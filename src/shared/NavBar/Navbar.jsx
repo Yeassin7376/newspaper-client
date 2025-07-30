@@ -88,7 +88,9 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         {user?.photoURL && (
-          <img className="w-10 md:w-16 h-10 md:h-16 mr-2 p-0.5 bg-blue-200 object-cover rounded-full" src={user?.photoURL} title={user?.displayName} alt="" />
+          <Link to='/myProfile'>
+            <img className="w-10 md:w-16 h-10 md:h-16 mr-2 p-0.5 bg-blue-200 object-cover rounded-full" src={user?.photoURL} title={user?.displayName} alt="" />
+          </Link>
         )}
         {user?.email ? (
           <button onClick={handleLogout} className="btn-sm md:btn btn btn-primary text-white">

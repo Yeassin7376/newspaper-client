@@ -109,7 +109,7 @@ const AllArticlesAdmin = () => {
     setPage(1);
   };
 
-  if (isLoading) return <div className="text-center py-10">Loading articles...</div>;
+  if (isLoading) return <span className="loading loading-bars loading-sm"></span>;
 
   return (
     <div className="px-4 mt-8">

@@ -15,7 +15,7 @@ const ArticleDetails = () => {
     }
   });
 
-  if (isLoading || !article) return <div className="text-center py-10">Loading article...</div>;
+  if (isLoading || !article) return <span className="loading loading-bars loading-sm"></span>;
 
   const { title, image, publisher, description, tags, authorName, authorEmail, authorPhoto, created_at, views, isPremium } = article;
 

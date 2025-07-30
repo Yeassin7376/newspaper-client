@@ -37,7 +37,7 @@ const TrendingArticlesSlider = () => {
   };
 
   if (isLoading) {
-    return <div className="text-center py-8">Loading trending articles...</div>;
+    return <span className="loading loading-bars loading-sm"></span>;
   }
 
   return (

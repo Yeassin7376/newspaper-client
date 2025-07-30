@@ -62,7 +62,7 @@ const MyArticles = () => {
     setShowModal(false);
   };
 
-  if (isLoading) return <div className="text-center py-10">Loading your articles...</div>;
+  if (isLoading) return <span className="loading loading-bars loading-sm"></span>;
 
   return (
     <div className="px-4 py-8">

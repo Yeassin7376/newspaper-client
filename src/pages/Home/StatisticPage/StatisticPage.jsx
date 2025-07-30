@@ -19,7 +19,7 @@ const StatisticPage = () => {
 
   const { total = 0, normal = 0, premium = 0 } = data;
 
-  if (isLoading) return <div className="text-center py-10">Loading statistics...</div>;
+  if (isLoading) return <span className="loading loading-bars loading-sm"></span>;
   if (isError) return <div className="text-center text-red-500 py-10">Failed to load statistics.</div>;
 
   return (

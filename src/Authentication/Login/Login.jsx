@@ -43,7 +43,6 @@ const Login = () => {
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <div className="card-body">
         <h1 className="text-5xl font-bold">Welcome Back</h1>
-        <p className="text-gray-400 mb-3">Login with Profast</p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="fieldset">
             <label className="label">Email</label>

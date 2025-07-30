@@ -75,7 +75,7 @@ const AddArticle = () => {
   };
 
   if (isPublishersLoading) {
-    return <div className="text-center mt-10">Loading publishers...</div>;
+    return <span className="loading loading-bars loading-sm"></span>;
   }
 
   return (

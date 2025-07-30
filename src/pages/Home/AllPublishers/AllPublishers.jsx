@@ -13,7 +13,7 @@ const AllPublishers = () => {
     }
   });
 
-  if (isLoading) return <div className="text-center py-10">Loading publishers...</div>;
+  if (isLoading) return <span className="loading loading-bars loading-sm"></span>;
   if (isError) return <div className="text-center py-10 text-red-500">Failed to load publishers.</div>;
 
   return (

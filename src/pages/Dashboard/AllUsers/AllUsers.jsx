@@ -53,7 +53,7 @@ const AllUsers = () => {
   const totalPages = data?.totalPages || 1;
 
   if (isLoading) {
-    return <div className="text-center my-10">Loading users...</div>;
+    return <span className="loading loading-bars loading-sm"></span>;
   }
 
   return (
