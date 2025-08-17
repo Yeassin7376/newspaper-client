@@ -24,7 +24,7 @@ const AllPublishers = () => {
         {publishers.map((publisher) => (
           <div
             key={publisher._id}
-            className="border border-gray-400 rounded-lg p-4 flex flex-col items-center shadow hover:shadow-lg transition duration-300 bg-white"
+            className=" rounded-lg p-4 flex flex-col items-center shadow hover:shadow-lg transition duration-300 bg-base-200"
           >
             <img
               src={publisher.logoUrl || '/default-logo.png'}

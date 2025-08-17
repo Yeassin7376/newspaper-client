@@ -62,7 +62,7 @@ const TrendingArticlesSlider = () => {
                 </div>
                 <div className="mt-3">
                 <Link to={`/articleDetails/${article._id}`}>
-                  <button className="btn btn-sm btn-accent btn-outline w-full">Read More</button>
+                  <button className="btn btn-sm btn-success btn-outline w-full">Read More</button>
                 </Link>
               </div>
               </div>

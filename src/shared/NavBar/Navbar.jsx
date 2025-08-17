@@ -5,12 +5,14 @@ import useUserRole from '../../hooks/useUserRole';
 import NewspaperLogo from '../NewspaperLogo/NewspaperLogo';
 import Loading from '../Loading/Loading';
 import useUserProfile from '../../hooks/useUserProfile';
+import useTheme from '../../hooks/useTheme';
 
 const Navbar = () => {
   const { user, logout, loading } = useAuth();
 
   const { role } = useUserRole();
   const { userFromDB } = useUserProfile();
+  const { theme, toggleTheme } = useTheme();
 
   const isPremium = userFromDB?.premiumExpiresAt && new Date(userFromDB?.premiumExpiresAt) > new Date();
 
@@ -22,7 +24,7 @@ const Navbar = () => {
       <li>
         <NavLink to="/allArticlePublic">All Article</NavLink>
       </li>
-      
+
       {isPremium && (
         <li>
           <NavLink to="/premiumArticles">Premium Articles</NavLink>
@@ -66,7 +68,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar bg-base-200 shadow-sm">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost pl-0 pr-2 lg:hidden">
@@ -87,8 +89,11 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
+        <input type="checkbox" value="dark" className="toggle theme-controller" checked={theme === 'dark'} onChange={(e) => {
+          toggleTheme(e.target.checked);
+        }} />
         {user?.photoURL && (
-          <Link to='/myProfile'>
+          <Link to="/myProfile">
             <img className="w-10 md:w-16 h-10 md:h-16 mr-2 p-0.5 bg-blue-200 object-cover rounded-full" src={user?.photoURL} title={user?.displayName} alt="" />
           </Link>
         )}
@@ -98,7 +103,7 @@ const Navbar = () => {
           </button>
         ) : (
           <>
-            <Link to="/login" className="btn-sm md:btn btn btn-primary text-white  mr-2">
+            <Link to="/login" className="btn-sm md:btn btn btn-primary hover:text-white  mr-2">
               Login
             </Link>
             <Link to="/register" className="btn-sm md:btn btn-primary btn-outline hover:text-white">

@@ -75,7 +75,7 @@ const AllArticlesPublic = () => {
 
       {/* Search + Filters */}
       <div className="flex flex-col md:flex-row gap-4 items-center">
-        <input type="text" placeholder="Search by title" className="input input-bordered w-full md:w-1/3" value={search} onChange={handleSearchChange} />
+        <input type="text" placeholder="Search by title" className="input w-full md:w-1/3" value={search} onChange={handleSearchChange} />
 
         <select className="select select-bordered w-full md:w-1/4" value={selectedPublisher} onChange={handlePublisherChange}>
           <option value="">All Publishers</option>
@@ -95,15 +95,17 @@ const AllArticlesPublic = () => {
       {isLoading && <div className="text-center my-10">Loading...</div>}
 
       {/* Articles Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
+        
+        {/* article card */}
         {articles.map((article) => (
-          <div key={article._id} className={`card border shadow-md p-4 space-y-3 ${article.isPremium ? 'bg-yellow-50 border-yellow-400' : 'bg-white'}`}>
+          <div key={article._id} className={`card  shadow-md p-4 space-y-3 ${article.isPremium ? 'bg-yellow-100 border-yellow-400' : 'bg-base-200 '}`}>
             <img src={article.image} alt={article.title} className="w-full h-48 object-cover rounded" />
-            <h3 className="text-xl font-semibold">
+            <h3 className="text-xl font-semibold line-clamp-2 text-base-content" title={article.title}>
               {article.title} {article.isPremium && <span className="badge badge-warning w-max">Premium</span>}
             </h3>
-            <p className="text-sm text-gray-600">{article.publisher}</p>
-            <p className="text-sm">{article.description.slice(0, 100)}...</p>
+            <p className="text-sm text-warning-content">{article.publisher}</p>
+            <p className="text-sm text-base-content">{article.description.slice(0, 100)}...</p>
 
             {article.isPremium ? (
               !isPremium ? (
