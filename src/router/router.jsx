@@ -22,6 +22,8 @@ import Payment from '../pages/Payment/Payment';
 import Error from '../pages/Error/Error';
 import PremiumArticles from '../pages/PremiumArticles/PremiumArticles';
 import PremiumRoute from '../routes/PremiumRoute';
+import AboutUs from '../pages/AboutUs/AboutUs';
+import Contact from '../pages/Contact/Contact';
 
 const router = createBrowserRouter([
   {
@@ -85,6 +87,14 @@ const router = createBrowserRouter([
         element: <PremiumRoute>
           <PremiumArticles></PremiumArticles>
         </PremiumRoute>
+      },
+      {
+        path: 'aboutUs',
+        Component: AboutUs
+      },
+      {
+        path: 'contact',
+        Component: Contact
       }
     ]
   },

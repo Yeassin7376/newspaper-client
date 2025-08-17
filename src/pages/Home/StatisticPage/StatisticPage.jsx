@@ -23,7 +23,7 @@ const StatisticPage = () => {
   if (isError) return <div className="text-center text-red-500 py-10">Failed to load statistics.</div>;
 
   return (
-    <div className="p-6">
+    <div className="py-6">
       <h2 className="text-2xl font-bold mb-8">User Statistics</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">

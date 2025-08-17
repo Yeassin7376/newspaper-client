@@ -52,6 +52,12 @@ const Navbar = () => {
           <NavLink to="/dashboard">Dashboard</NavLink>
         </li>
       )}
+      <li>
+        <NavLink to="/contact">Contact</NavLink>
+      </li>
+      <li>
+        <NavLink to="/aboutUs">About us</NavLink>
+      </li>
     </>
   );
 
@@ -68,7 +74,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="navbar bg-base-200 shadow-sm">
+    <div className="py-1 w-11/12 mx-auto flex items-center ">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost pl-0 pr-2 lg:hidden">
@@ -98,12 +104,12 @@ const Navbar = () => {
           </Link>
         )}
         {user?.email ? (
-          <button onClick={handleLogout} className="btn-sm md:btn btn btn-primary text-white">
+          <button onClick={handleLogout} className="btn btn-primary text-white">
             Logout
           </button>
         ) : (
           <>
-            <Link to="/login" className="btn-sm md:btn btn btn-primary hover:text-white  mr-2">
+            <Link to="/login" className="btn btn-primary hover:text-white  mr-2">
               Login
             </Link>
             <Link to="/register" className="btn-sm md:btn btn-primary btn-outline hover:text-white">
