@@ -17,8 +17,8 @@ const AllPublishers = () => {
   if (isError) return <div className="text-center py-10 text-red-500">Failed to load publishers.</div>;
 
   return (
-    <div className=" py-10">
-      <h2 className="text-2xl font-bold mb-6">All Publishers</h2>
+    <div className="">
+      <h2 className="text-3xl font-bold mb-6">All Publishers</h2>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {publishers.map((publisher) => (

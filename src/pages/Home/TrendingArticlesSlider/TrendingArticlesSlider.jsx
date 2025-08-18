@@ -41,8 +41,8 @@ const TrendingArticlesSlider = () => {
   }
 
   return (
-    <div className="my-10 md:mb-24">
-      <h2 className="text-2xl md:text-4xl font-semibold mb-4">🔥 Trending Articles</h2>
+    <div className="">
+      <h2 className="text-2xl md:text-3xl font-semibold mb-4">🔥 Trending Articles</h2>
       <Slider {...sliderSettings}>
         {articles.map((article) => (
           <div key={article._id} className="px-2 block h-full">
