@@ -42,9 +42,6 @@ const Navbar = () => {
           <li>
             <NavLink to="/myArticles">My Articles</NavLink>
           </li>
-          <li>
-            <NavLink to="/myProfile">My Profile</NavLink>
-          </li>
         </>
       )}
       {role === 'admin' && (

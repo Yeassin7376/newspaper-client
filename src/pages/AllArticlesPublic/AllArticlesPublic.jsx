@@ -87,7 +87,7 @@ const AllArticlesPublic = () => {
         </select>
 
         <div className="w-full md:w-1/3">
-          <Select isMulti options={tagOptions} onChange={handleTagChange} placeholder="Filter by tags" />
+          <Select isMulti options={tagOptions} onChange={handleTagChange} placeholder="Filter by tags"  classNamePrefix="react-select" />
         </div>
       </div>
 

@@ -90,14 +90,14 @@ const MyProfile = () => {
   return (
     <div className="max-w-xl mx-auto mt-10">
       {/* Profile Card */}
-      <div className="bg-white shadow-md rounded-md p-6 md:py-20 text-center">
+      <div className="bg-base-200 shadow-md rounded-md p-6 md:py-20 text-center">
         <img src={user?.photoURL} alt="User" className="w-28 h-28 p-1 bg-blue-300 rounded-full mx-auto mb-4 object-cover" />
         <h2 className="text-xl font-semibold flex justify-center items-center gap-2.5">
           {userFromDB?.premiumExpiresAt && <FaCrown className="text-4xl text-yellow-600 " />}
           {userFromDB?.role === 'admin' && <GrUserAdmin />}
           {user?.displayName}
         </h2>
-        <p className="text-gray-500">{user?.email}</p>
+        <p className="text-gray-500 dark:text-gray-300">{user?.email}</p>
         <button onClick={handleUpdateClick} className="mt-4 btn btn-outline btn-primary">
           Update Profile
         </button>
@@ -106,7 +106,7 @@ const MyProfile = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-opacity-40 z-50 flex items-center justify-center">
-          <div className="bg-blue-50 rounded-lg p-6 w-full max-w-md shadow-md">
+          <div className="bg-base-100 rounded-lg p-6 w-full max-w-md shadow-md">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Update Profile</h3>
               <button className="text-gray-500" onClick={handleCloseModal}>

@@ -79,7 +79,7 @@ const AddArticle = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow mt-10">
+    <div className="max-w-3xl mx-auto p-6 bg-base-200 rounded-lg shadow my-10">
       <h2 className="text-2xl font-semibold mb-6">Add New Article</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Author Info (Read-only fields) */}

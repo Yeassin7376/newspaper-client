@@ -71,7 +71,7 @@ const CheckoutForm = ({ clientSecret, price, period }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <CardElement className="p-4 border rounded-md" />
+      <CardElement className="p-4 border bg-base-100 dark:bg-gray-200 rounded-md" />
       {cardError && <p className="text-red-500">{cardError}</p>}
       <button type="submit" className="btn btn-primary w-full" disabled={!stripe || loading}>
         {loading ? 'Processing...' : `Pay $${price}`}

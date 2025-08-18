@@ -26,7 +26,7 @@ const Subscription = () => {
       </div>
 
       {/* Subscription Form */}
-      <div className="bg-white p-8 shadow-lg rounded-lg space-y-6">
+      <div className="bg-base-200 p-8 shadow-lg rounded-lg space-y-6">
         <h2 className="text-2xl font-bold">Choose Your Subscription Plan</h2>
 
         {/* Dropdown */}
