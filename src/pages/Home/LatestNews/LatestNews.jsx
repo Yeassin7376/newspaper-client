@@ -3,6 +3,7 @@ import useAxios from '../../../hooks/useAxios';
 
 const LatestNews = () => {
   const [latestNews, setLatestNews] = useState([]);
+  const [loading, setLoading] = useState(true);
   const axiosInstance = useAxios();
 
   useEffect(() => {
@@ -12,6 +13,8 @@ const LatestNews = () => {
         setLatestNews(res.data);
       } catch (err) {
         console.error('Error fetching latest news:', err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -44,7 +47,25 @@ const LatestNews = () => {
       </div>
 
       {/* Fallback when no news */}
-      {latestNews.length === 0 && <p className="text-center text-gray-500 mt-4">No latest news available.</p>}
+      {loading ? (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[...Array(6)].map((_, index) => (
+            <div key={index} className="card bg-base-200 shadow-xl animate-pulse">
+              <figure className="h-48 w-full bg-gray-300 dark:bg-gray-700"></figure>
+              <div className="card-body">
+                <div className="h-6 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
+                <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full mb-1"></div>
+                <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-5/6"></div>
+                <div className="card-actions justify-end mt-2">
+                  <div className="h-8 w-20 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : latestNews.length === 0 ? (
+        <p className="text-center text-gray-500 mt-4">No latest news available.</p>
+      ) : null}
     </div>
   );
 };

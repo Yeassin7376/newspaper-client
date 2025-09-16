@@ -4,6 +4,7 @@ import AllPublishers from './AllPublishers/AllPublishers';
 import StatisticPage from './StatisticPage/StatisticPage';
 import PlanSection from './PlanSection/PlanSection';
 import LatestNews from './LatestNews/LatestNews';
+import OpinionEditorial from './OpinionEditorial/OpinionEditorial';
 
 const Home = () => {
   return (
@@ -19,6 +20,9 @@ const Home = () => {
       </section>
       <section className='my-10'>
         <StatisticPage></StatisticPage>
+      </section>
+      <section>
+        <OpinionEditorial></OpinionEditorial>
       </section>
       <section className='my-10'>
         <PlanSection></PlanSection>

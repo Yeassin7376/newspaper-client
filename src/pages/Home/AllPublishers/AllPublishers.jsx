@@ -20,7 +20,7 @@ const AllPublishers = () => {
     <div className="">
       <h2 className="text-3xl font-bold mb-6">All Publishers</h2>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-8">
         {publishers.map((publisher) => (
           <div
             key={publisher._id}
