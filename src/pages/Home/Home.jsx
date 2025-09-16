@@ -21,7 +21,7 @@ const Home = () => {
       <section className='my-10'>
         <StatisticPage></StatisticPage>
       </section>
-      <section>
+      <section className='my-10'>
         <OpinionEditorial></OpinionEditorial>
       </section>
       <section className='my-10'>

@@ -14,7 +14,7 @@ const OpinionEditorial = () => {
 
   return (
     <section className="">
-        <h2 className="text-3xl font-bold mb-8 ">
+        <h2 className="text-3xl font-bold mb-10">
           Opinion & Editorial
         </h2>
       <div className="container mx-auto px-6 bg-base-200 py-12">

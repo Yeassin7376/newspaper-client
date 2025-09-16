@@ -29,7 +29,7 @@ const LatestNews = () => {
       {/* News Grid */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {latestNews.map((news) => (
-          <div key={news._id} className="card bg-base-200 shadow-xl hover:shadow-2xl transition">
+          <div key={news._id} className="card bg-base-200 shadow hover:shadow-xl transition">
             <figure>
               <img src={news.image} alt={news.title} className="h-48  w-full object-cover" />
             </figure>
