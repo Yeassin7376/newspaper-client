@@ -5,6 +5,7 @@ import StatisticPage from './StatisticPage/StatisticPage';
 import PlanSection from './PlanSection/PlanSection';
 import LatestNews from './LatestNews/LatestNews';
 import OpinionEditorial from './OpinionEditorial/OpinionEditorial';
+import VideoHighlightsCarousel from './VideoHighlightsCarousel/VideoHighlightsCarousel';
 
 const Home = () => {
   return (
@@ -23,6 +24,9 @@ const Home = () => {
       </section>
       <section className='my-10'>
         <OpinionEditorial></OpinionEditorial>
+      </section>
+      <section>
+        <VideoHighlightsCarousel></VideoHighlightsCarousel>
       </section>
       <section className='my-10'>
         <PlanSection></PlanSection>
