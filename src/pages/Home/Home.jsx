@@ -6,10 +6,14 @@ import PlanSection from './PlanSection/PlanSection';
 import LatestNews from './LatestNews/LatestNews';
 import OpinionEditorial from './OpinionEditorial/OpinionEditorial';
 import VideoHighlightsCarousel from './VideoHighlightsCarousel/VideoHighlightsCarousel';
+import HeroBreakingNews from './HeroBreakingNews/HeroBreakingNews';
 
 const Home = () => {
   return (
     <div>
+      <section className='my-10'>
+        <HeroBreakingNews></HeroBreakingNews>
+      </section>
       <section className='my-10'>
         <TrendingArticlesSlider></TrendingArticlesSlider>
       </section>
