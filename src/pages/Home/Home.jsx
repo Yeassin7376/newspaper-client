@@ -7,11 +7,12 @@ import LatestNews from './LatestNews/LatestNews';
 import OpinionEditorial from './OpinionEditorial/OpinionEditorial';
 import VideoHighlightsCarousel from './VideoHighlightsCarousel/VideoHighlightsCarousel';
 import HeroBreakingNews from './HeroBreakingNews/HeroBreakingNews';
+import ThematicNewsBlocks from './ThematicNewsBlocks/ThematicNewsBlocks';
 
 const Home = () => {
   return (
     <div>
-      <section className='my-10'>
+      <section className='mb-10'>
         <HeroBreakingNews></HeroBreakingNews>
       </section>
       <section className='my-10'>
@@ -29,8 +30,11 @@ const Home = () => {
       <section className='my-10'>
         <OpinionEditorial></OpinionEditorial>
       </section>
-      <section>
+      <section className='my-10'>
         <VideoHighlightsCarousel></VideoHighlightsCarousel>
+      </section>
+      <section className='my-10'>
+        <ThematicNewsBlocks></ThematicNewsBlocks>
       </section>
       <section className='my-10'>
         <PlanSection></PlanSection>

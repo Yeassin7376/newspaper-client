@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const HeroBreakingNews = () => {
   // In real app, you can fetch breaking news from backend
@@ -20,11 +21,11 @@ const HeroBreakingNews = () => {
 
       {/* Content */}
       <div className="relative z-10 max-w-4xl text-center text-white px-4">
-        <h1 className="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">{breakingNews.title}</h1>
-        <p className="text-lg md:text-xl mb-8 drop-shadow-md">{breakingNews.summary}</p>
-        <a href={breakingNews.link} className="btn btn-primary btn-lg font-semibold">
+        <h1 className="text-4xl md:text-5xl font-bold mb-3 drop-shadow-lg">{breakingNews.title}</h1>
+        <p className="text-lg md:text-2xl mb-8 drop-shadow-md">{breakingNews.summary}</p>
+        <Link to={breakingNews.link} className="btn btn-primary btn-lg font-semibold">
           Read Full Story
-        </a>
+        </Link>
       </div>
     </section>
   );

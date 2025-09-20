@@ -28,7 +28,7 @@ const Login = () => {
         const userInfo = {
           email: result.user.email
         };
-        const res = await axiosInstant.post('/users', userInfo);
+        await axiosInstant.post('/users', userInfo);
         // console.log(res);
         toast.success('User login successful');
         navigate(from);
