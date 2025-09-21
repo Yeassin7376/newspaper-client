@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 const axiosSecure = axios.create({
-    baseURL : 'https://newspaper-server-beta.vercel.app'
+    baseURL : 'https://newspaper-server-beta.vercel.app/'
     // baseURL : 'http://localhost:5000'
 })
 
