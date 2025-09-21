@@ -12,12 +12,6 @@ const ThematicNewsBlocks = () => {
     queryKey: ['thematic-news'],
     queryFn: async () => {
       const res = await axiosSecure.get('/thematicNews'); 
-      // expected backend shape:
-      // {
-      //   Technology: [...],
-      //   Sports: [...],
-      //   Health: [...]
-      // }
       return res.data;
     }
   });

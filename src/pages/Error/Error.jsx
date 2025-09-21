@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 const Error = () => {
   return (
     <div className='min-h-screen w-full'>
-        <section className="flex items-center h-full p-16 dark:bg-gray-50 dark:text-gray-800">
+        <section className="flex items-center h-full p-16 dark:bg-base-200 dark:text-gray-800">
       <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
         <div className="max-w-md text-center">
           <h2 className="mb-8 font-extrabold text-9xl dark:text-gray-400">

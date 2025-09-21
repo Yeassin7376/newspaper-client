@@ -11,7 +11,7 @@ const PlanSection = () => {
   return (
     <section className="bg-base-100 text-base-content">
       <h2 className="text-3xl font-bold mb-10">Choose Your Plan</h2>
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
 
         <div className="grid gap-8 grid-cols-1 md:grid-cols-2 md:w-3/4 mx-auto">
           {/* Free Plan */}
@@ -31,7 +31,7 @@ const PlanSection = () => {
           </div>
 
           {/* Premium Plan */}
-          <div className="border rounded-lg p-8 shadow-lg bg-primary text-white relative">
+          <div className="border rounded-lg p-8 shadow-lg bg-primary dark:bg-base-300 text-white relative">
             <div className="absolute top-0 right-0 bg-accent text-white text-xs px-3 py-1 rounded-bl-lg">
               Most Popular
             </div>
